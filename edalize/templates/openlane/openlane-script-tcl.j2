@@ -4,12 +4,16 @@ set ::env(DESIGN_NAME) {{top}}
 
 set ::env(VERILOG_FILES) [list {{file_table}}]
 
+{% if blackbox_table != "" %}
+set ::env(VERILOG_FILES_BLACKBOX) [list {{blackbox_table}}]
+{% endif %}
+
 {% if lefs_table != "" %}
 set ::env(EXTRA_LEFS) [list {{lefs_table}}]
 {% endif %}
 
-{% if blackbox_table != "" %}
-set ::env(VERILOG_FILES_BLACKBOX) [list {{blackbox_table}}]
+{% if gds_table != "" %}
+set ::env(EXTRA_GDS_FILES) [list {{gds_table}}]
 {% endif %}
 
 {% if tcl_pdn != "" %}
@@ -18,6 +22,10 @@ set ::env(PDN_CFG) {{tcl_pdn}}
 
 {% if pin_order != "" %}
 set ::env(FP_PIN_ORDER_CFG) {{pin_order}}
+{% endif %}
+
+{% if macro_placement != "" %}
+set ::env(MACRO_PLACEMENT_CFG) {{macro_placement}}
 {% endif %}
 
 {% if tcl_params != "" %}
