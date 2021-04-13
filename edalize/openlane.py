@@ -20,6 +20,12 @@ class Openlane(Edatool):
                         {'name' : 'interactive_name',
                          'type' : 'String',
                          'desc' : 'Optional name of interactive tcl script.'},
+                        {'name' : 'pdn_name',
+                         'type' : 'String',
+                         'desc' : 'Optional name of power delivery network tcl script.'},
+                        {'name' : 'pin_order_name',
+                         'type' : 'String',
+                         'desc' : 'Optional name of pin order tcl script.'},
                     ],
                     'lists' : []}
 
@@ -29,7 +35,10 @@ class Openlane(Edatool):
         blackbox_table = ""
         tcl_params = ""
         tcl_interactive = ""
+        tcl_pdn         = ""
+        pin_order = ""
         (src_files, incdirs) = self._get_fileset_files()
+        # yeah if-statement below is getting silly, I'll clean up...
         for f in src_files:
             if f.file_type.startswith('verilogSource'):
                 file_table = file_table + f.name + " "
@@ -42,6 +51,12 @@ class Openlane(Edatool):
             elif self.tool_options.get('interactive_name') != None:
                 if f.name.endswith(self.tool_options.get('interactive_name')):
                     tcl_interactive = f.name
+            elif self.tool_options.get('pdn_name') != None:
+                if f.name.endswith(self.tool_options.get('pdn_name')):
+                    tcl_pdn = f.name
+            elif self.tool_options.get('pin_order_name') != None:
+                if f.name.endswith(self.tool_options.get('pin_order_name')):
+                    pin_order = f.name
 
         template_vars = {
             'top' : self.toplevel,
@@ -51,6 +66,8 @@ class Openlane(Edatool):
             'work_root' : os.path.split(self.work_root)[1],
             'tcl_params' : tcl_params,
             'tcl_interactive' : tcl_interactive,
+            'tcl_pdn' : tcl_pdn,
+            'pin_order' : pin_order,
         }
 
         script_name = 'config.tcl'
