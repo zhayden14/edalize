@@ -9,10 +9,11 @@ ifeq ($(PDK_ROOT),)
 	echo "Please export PDK_ROOT"
 	exit 1
 endif
+
 {% if tcl_interactive != "" %}
-	$(EDALIZE_LAUNCHER) flow.tcl -tag {{top}} -save -design . -interactive -file {{tcl_interactive}}
+	$(EDALIZE_LAUNCHER) flow.tcl -tag {{top}} -save -save_path . -design . -interactive -file {{tcl_interactive}}
 {% else %}
-	$(EDALIZE_LAUNCHER) flow.tcl -tag {{top}} -save -design .
+	$(EDALIZE_LAUNCHER) flow.tcl -tag {{top}} -save -save_path . -design . -interactive -file interactive.tcl
 {% endif %}
 
 clean:

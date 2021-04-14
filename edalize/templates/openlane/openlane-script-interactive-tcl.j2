@@ -1,0 +1,57 @@
+package require openlane 
+
+prep -design . -tag {{top}} -overwrite
+set save_path [pwd]
+
+if {$::env(RUN_SYNTHESIS)} {
+    run_synthesis
+}
+
+if {$::env(RUN_FLOORPLAN)} {
+    run_floorplan
+}
+
+if {$::env(RUN_PLACEMENT)} {
+    run_placement
+}
+
+if {$::env(RUN_CTS)} {
+    run_cts
+}
+
+if {$::env(RUN_ROUTING)} {
+    run_routing
+}
+
+if {$::env(RUN_POWERED_VERILOG)} {
+    write_powered_verilog
+    set_netlist $::env(lvs_result_file_tag).powered.v
+}
+
+if {$::env(RUN_MAGIC)} {
+    run_magic
+    run_magic_spice_export
+}
+
+if {$::env(RUN_DRC)} {
+    run_magic_drc
+}
+
+if {$::env(RUN_LVS)} {
+    run_lvs
+}
+
+if {$::env(RUN_ANTENNA)} {
+    run_antenna_check
+}
+
+save_views       -lef_path $::env(magic_result_file_tag).lef \
+                 -def_path $::env(tritonRoute_result_file_tag).def \
+                 -gds_path $::env(magic_result_file_tag).gds \
+                 -mag_path $::env(magic_result_file_tag).mag \
+				 -verilog_path $::env(CURRENT_NETLIST) \
+                 -save_path $save_path \
+                 -tag $::env(RUN_TAG)
+
+
+generate_final_summary_report

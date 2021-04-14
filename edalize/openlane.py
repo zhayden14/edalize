@@ -70,3 +70,7 @@ class Openlane(Edatool):
 
         makefile_name = 'Makefile'
         self.render_template('openlane-makefile.j2', makefile_name, template_vars)
+
+        if (tcl_interactive == ""):
+            interactive_name = 'interactive.tcl'
+            self.render_template('openlane-script-interactive-tcl.j2', interactive_name, template_vars)
