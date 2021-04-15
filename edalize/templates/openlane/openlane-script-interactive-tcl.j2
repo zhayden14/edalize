@@ -3,35 +3,51 @@ package require openlane
 prep -design . -tag {{top}} -overwrite
 set save_path [pwd]
 
+{% if presynthesis != "" %} source {{presynthesis}} {% endif %}
+
 if {$::env(RUN_SYNTHESIS)} {
     run_synthesis
 }
+
+{% if prefloorplan != "" %} source {{prefloorplan}} {% endif %}
 
 if {$::env(RUN_FLOORPLAN)} {
     run_floorplan
 }
 
+{% if preplacement != "" %} source {{preplacement}} {% endif %}
+
 if {$::env(RUN_PLACEMENT)} {
     run_placement
 }
+
+{% if prects != "" %} source {{prects}} {% endif %}
 
 if {$::env(RUN_CTS)} {
     run_cts
 }
 
+{% if prerouting != "" %} source {{prerouting}} {% endif %}
+
 if {$::env(RUN_ROUTING)} {
     run_routing
 }
+
+{% if prepowered != "" %} source {{prepowered}} {% endif %}
 
 if {$::env(RUN_POWERED_VERILOG)} {
     write_powered_verilog
     set_netlist $::env(lvs_result_file_tag).powered.v
 }
 
+{% if premagic != "" %} source {{premagic}} {% endif %}
+
 if {$::env(RUN_MAGIC)} {
     run_magic
     run_magic_spice_export
 }
+
+{% if predrc != "" %} source {{predrc}} {% endif %}
 
 if {$::env(RUN_DRC)} {
     run_magic_drc
@@ -53,5 +69,6 @@ save_views       -lef_path $::env(magic_result_file_tag).lef \
                  -save_path $save_path \
                  -tag $::env(RUN_TAG)
 
-
-generate_final_summary_report
+if {$::env(REPORT)} { 
+    generate_final_summary_report
+}

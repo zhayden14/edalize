@@ -30,6 +30,14 @@ class Openlane(Edatool):
         tcl_pdn         = ""
         pin_order = ""
         macro_placement = ""
+        presynthesis = ""
+        prefloorplan = ""
+        preplacement = ""
+        prects = ""
+        prerouting = ""
+        prepowered = ""
+        premagic = ""
+        predrc = ""
         (src_files, incdirs) = self._get_fileset_files()
         for f in src_files:
             if f.file_type == 'verilogSource':
@@ -50,6 +58,22 @@ class Openlane(Edatool):
                 pin_order = f.name
             elif f.name.endswith('params.tcl'):
                 tcl_params = f.name
+            elif f.name.endswith('presynthesis.tcl'):
+                presynthesis = f.name
+            elif f.name.endswith('prefloorplan.tcl'):
+                prefloorplan = f.name
+            elif f.name.endswith('preplacement.tcl'):
+                preplacement = f.name
+            elif f.name.endswith('prects.tcl'):
+                prects = f.name
+            elif f.name.endswith('prerouting.tcl'):
+                prerouting = f.name
+            elif f.name.endswith('prepowered.tcl'):
+                prepowered = f.name
+            elif f.name.endswith('premagic.tcl'):
+                premagic = f.name
+            elif f.name.endswith('predrc.tcl'):
+                predrc = f.name
 
         template_vars = {
             'top' : self.toplevel,
@@ -63,6 +87,14 @@ class Openlane(Edatool):
             'tcl_pdn' : tcl_pdn,
             'pin_order' : pin_order,
             'macro_placement' : macro_placement,
+            'presynthesis' : presynthesis,
+            'prefloorplan' : prefloorplan,
+            'preplacement' : preplacement,
+            'prects' : prects,
+            'prerouting' : prerouting,
+            'prepowered' : prepowered,
+            'premagic' : premagic,
+            'predrc' : predrc,
         }
 
         script_name = 'config.tcl'
