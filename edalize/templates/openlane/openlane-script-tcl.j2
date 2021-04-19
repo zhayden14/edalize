@@ -39,6 +39,14 @@ set ::env(PDN_CFG) {{tcl_pdn}}
 set ::env(FP_PIN_ORDER_CFG) {{pin_order}}
 {% endif %}
 
+{% if fp_context_def != "" %}
+set ::env(FP_CONTEXT_DEF) {{fp_context_def}}
+{% endif %}
+
+{% if fp_context_lef != "" %}
+set ::env(FP_CONTEXT_LEF) {{fp_context_lef}}
+{% endif %}
+
 {% if macro_placement != "" %}
 set ::env(MACRO_PLACEMENT_CFG) {{macro_placement}}
 {% endif %}

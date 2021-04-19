@@ -30,6 +30,8 @@ class Openlane(Edatool):
         tcl_pdn         = ""
         pin_order = ""
         macro_placement = ""
+        fp_context_def = ""
+        fp_context_lef = ""
         presynthesis = ""
         prefloorplan = ""
         preplacement = ""
@@ -56,6 +58,10 @@ class Openlane(Edatool):
                 macro_placement = f.name
             elif f.file_type == 'pinOrder':
                 pin_order = f.name
+            elif f.file_type == 'fpContextLef':
+                fp_context_lef = f.name
+            elif f.file_type == 'fpContextDef':
+                fp_context_def = f.name
             elif f.name.endswith('params.tcl'):
                 tcl_params = f.name
             elif f.name.endswith('presynthesis.tcl'):
@@ -87,6 +93,8 @@ class Openlane(Edatool):
             'tcl_pdn' : tcl_pdn,
             'pin_order' : pin_order,
             'macro_placement' : macro_placement,
+            'fp_context_lef' : fp_context_lef,
+            'fp_context_def' : fp_context_def,
             'presynthesis' : presynthesis,
             'prefloorplan' : prefloorplan,
             'preplacement' : preplacement,
