@@ -31,6 +31,10 @@ set ::env(EXTRA_LEFS) [list {{lefs_table}}]
 set ::env(EXTRA_GDS_FILES) [list {{gds_table}}]
 {% endif %}
 
+{% if mag_table != "" %}
+set ::env(MAG_FILES) [list {{mag_table}}]
+{% endif %}
+
 {% if tcl_pdn != "" %}
 set ::env(PDN_CFG) {{tcl_pdn}}
 {% endif %}
@@ -45,6 +49,10 @@ set ::env(FP_CONTEXT_DEF) {{fp_context_def}}
 
 {% if fp_context_lef != "" %}
 set ::env(FP_CONTEXT_LEF) {{fp_context_lef}}
+{% endif %}
+
+{% if fp_def_template != "" %}
+set ::env(FP_DEF_TEMPLATE) {{fp_def_template}}
 {% endif %}
 
 {% if macro_placement != "" %}

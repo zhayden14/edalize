@@ -25,6 +25,7 @@ class Openlane(Edatool):
         lefs = []
         blackboxes = []
         gds = []
+        mag = []
         tcl_params = ""
         tcl_interactive = ""
         tcl_pdn         = ""
@@ -32,6 +33,7 @@ class Openlane(Edatool):
         macro_placement = ""
         fp_context_def = ""
         fp_context_lef = ""
+        fp_def_template = ""
         presynthesis = ""
         prefloorplan = ""
         preplacement = ""
@@ -50,6 +52,8 @@ class Openlane(Edatool):
                 lefs.append(f.name)
             elif f.file_type == 'GDS':
                 gds.append(f.name)
+            elif f.file_type == 'MAG':
+                mag.append(f.name)
             elif f.file_type == 'interactive':
                 tcl_interactive = f.name
             elif f.file_type == 'pdn':
@@ -62,6 +66,8 @@ class Openlane(Edatool):
                 fp_context_lef = f.name
             elif f.file_type == 'fpContextDef':
                 fp_context_def = f.name
+            elif f.file_type == "fpDefTemplate":
+                fp_def_template == f.name
             elif f.name.endswith('params.tcl'):
                 tcl_params = f.name
             elif f.name.endswith('presynthesis.tcl'):
@@ -87,6 +93,7 @@ class Openlane(Edatool):
             'blackbox_table' : ' '.join(blackboxes),
             'lefs_table' : ' '.join(lefs),
             'gds_table' : ' '.join(gds),
+            'mag_table': ' '.join(mag),
             'work_root' : os.path.split(self.work_root)[1],
             'tcl_params' : tcl_params,
             'tcl_interactive' : tcl_interactive,
@@ -95,6 +102,7 @@ class Openlane(Edatool):
             'macro_placement' : macro_placement,
             'fp_context_lef' : fp_context_lef,
             'fp_context_def' : fp_context_def,
+            'fp_def_template' : fp_def_template,
             'presynthesis' : presynthesis,
             'prefloorplan' : prefloorplan,
             'preplacement' : preplacement,
