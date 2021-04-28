@@ -63,7 +63,14 @@ set ::env(MACRO_PLACEMENT_CFG) {{macro_placement}}
 source {{tcl_params}}
 {% endif %}
 
-set filename $::env(DESIGN_DIR)/$::env(PDK)_$::env(STD_CELL_LIBRARY)_config.tcl
-if { [file exists $filename] == 1} {
-    source $filename
+set tcl [list {{tcl}}]
+set filename $::env(PDK)_$::env(STD_CELL_LIBRARY)_config.tcl
+
+# Right now we treat otherwise unspecified tcl files as potential special rules for a cell library
+# So if we find a matching one for the current PDK/STD_CELL_LIBRARY, we source it
+foreach x $tcl {
+    if { [string match *$filename $x] } {
+        source $x
+        break
+    }
 }

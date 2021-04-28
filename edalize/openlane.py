@@ -26,6 +26,7 @@ class Openlane(Edatool):
         blackboxes = []
         gds = []
         mag = []
+        tcl = []
         tcl_params = ""
         tcl_interactive = ""
         tcl_pdn         = ""
@@ -86,6 +87,8 @@ class Openlane(Edatool):
                 premagic = f.name
             elif f.name.endswith('predrc.tcl'):
                 predrc = f.name
+            elif f.file_type == "tclSource":
+                tcl.append(f.name)
 
         template_vars = {
             'top' : self.toplevel,
@@ -111,6 +114,7 @@ class Openlane(Edatool):
             'prepowered' : prepowered,
             'premagic' : premagic,
             'predrc' : predrc,
+            'tcl' : ' '.join(tcl),
         }
 
         script_name = 'config.tcl'
