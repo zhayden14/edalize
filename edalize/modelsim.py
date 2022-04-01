@@ -207,6 +207,22 @@ class Modelsim(Edatool):
     def run_main(self):
         args = ["run"]
 
+        p = []
+        # Set generics
+        if self.generic:
+            for key, value in self.generic.items():
+                p.append(
+                    "{}={}".format(key, self._param_value_str(value, bool_is_str=True))
+                )
+
+        # Set parameters
+        if self.vlogparam:
+            for key, value in self.vlogparam.items():
+                p.append("{}={}".format(key, self._param_value_str(value)))
+
+        if p:
+            args.append("PARAMETERS=" + " ".join(p))
+
         # Set plusargs
         if self.plusarg:
             plusargs = []
