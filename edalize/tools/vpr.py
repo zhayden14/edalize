@@ -67,16 +67,21 @@ class Vpr(Edatool):
         """
         super().configure(edam)
 
-        src_files = []
-        incdirs = set()
-
-        file_netlist = []
+        netlist_file = ""
         timing_constraints = []
 
-        for f in src_files:
-            if f.file_type in ["blif", "eblif"]:
-                file_netlist.append(f.name)
-            if f.file_type in ["SDC"]:
+        for f in self.files:
+            file_type = f.get("file_type", "")
+
+            if file_type in ["blif", "eblif"]:
+                if netlist_file:
+                    raise RuntimeError(
+                        "VPR only supports one netlist file. Found {} and {}".format(
+                            netlist_file, f["name"]
+                        )
+                    )
+                netlist_file = f["name"]
+            if file_type in ["SDC"]:
                 timing_constraints.append(f.name)
 
         arch_xml = self.tool_options.get("arch_xml")
@@ -90,27 +95,27 @@ class Vpr(Edatool):
 
         commands = EdaCommands()
 
-        depends = self.name + ".blif"
+        depends = netlist_file
         targets = self.name + ".net"
-        command = ["vpr", arch_xml, self.name + ".blif", "--pack"]
+        command = ["vpr", arch_xml, netlist_file, "--pack"]
         command += sdc_opts + vpr_options
         commands.add(command, [targets], [depends])
 
         depends = self.name + ".net"
         targets = self.name + ".place"
-        command = ["vpr", arch_xml, self.name + ".blif", "--place"]
+        command = ["vpr", arch_xml, netlist_file, "--place"]
         command += sdc_opts + vpr_options
         commands.add(command, [targets], [depends])
 
         depends = self.name + ".place"
         targets = self.name + ".route"
-        command = ["vpr", arch_xml, self.name + ".blif", "--route"]
+        command = ["vpr", arch_xml, netlist_file, "--route"]
         command += sdc_opts + vpr_options
         commands.add(command, [targets], [depends])
 
         depends = self.name + ".route"
         targets = self.name + ".analysis"
-        command = ["vpr", arch_xml, self.name + ".blif", "--analysis"]
+        command = ["vpr", arch_xml, netlist_file, "--analysis"]
         command += sdc_opts + vpr_options
         commands.add(command, [targets], [depends])
 
