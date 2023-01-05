@@ -46,10 +46,12 @@ set_property verilog_define {
 
 {% if incdirs -%}
 set_property include_dirs [list {{ incdirs|join(' ') }}] [get_filesets sources_1]
+set_property include_dirs [list {{ incdirs|join(' ') }}] [get_filesets sim_1]
 {%- endif %}
 
 {% if toplevel -%}
-set_property top {{ toplevel }} [current_fileset]
+set_property top {{ toplevel }} [get_filesets sources_1]
+set_property top {{ toplevel }} [get_filesets sim_1]
 set_property source_mgmt_mode {{ tool_options.source_mgmt_mode if tool_options.source_mgmt_mode else "None" }} [current_project]
 
 {%- endif %}
